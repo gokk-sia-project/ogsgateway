@@ -1,33 +1,124 @@
 <?php
 
-
 $router->get('/', function () use ($router) {
+    echo "<center> Welcome </center>";
+});
+
+$router->get('/version', function () use ($router) {
     return $router->app->version();
 });
 
-//User1Controller
-$router->get('/users1',['uses' => 'User1Controller@index']); //LISTUSER - show all user records
+Route::group([
 
-$router->get('/user1/{id}', 'User1Controller@getID1'); //GETIDUSER - gets user by id
+    'prefix' => 'api'
 
-$router->post('/user1', 'User1Controller@addUser1'); //ADDUSER - creates a new user
+], function ($router) {
 
-$router->put('/user1/{id}', 'User1Controller@updateUser1');  //UPDATEUSER - updates user records with put
+    Route::post('login', 'AuthController@login');
 
-$router->patch('/user1/{id}', 'User1Controller@updateUser1');  //UPDATEUSER - updates user records with patch
-
-$router->delete('/user1/{id}', 'User1Controller@deleteUser1'); //DELETEUSER - delete an existing user
+    Route::post('user-profile', 'AuthController@me');
 
 
-//User2Controller
-$router->get('/users2',['uses' => 'User2Controller@index']); //LISTUSER - show all user records
+//STUDENT CONTROLLER 8000
 
-$router->get('/user2/{id}', 'User2Controller@getID2'); //GETIDUSER - gets user by id
+    // STUDENT
 
-$router->post('/user2', 'User2Controller@addUser2'); //ADDUSER - creates a new user
+    $router->get('/students',['uses' => 'StudentController@getStudents']);
 
-$router->put('/user2/{id}', 'User2Controller@updateUser2');  //UPDATEUSER - updates user records with put
+    $router->get('/student/{id}', 'StudentController@getStudentID');
 
-$router->patch('/user2/{id}', 'User2Controller@updateUser2');  //UPDATEUSER - updates user records with patch
+    $router->post('/student', 'StudentController@addStudent');
 
-$router->delete('/user2/{id}', 'User2Controller@deleteUser2'); //DELETEUSER - delete an existing user
+    $router->put('/student/{id}', 'StudentController@updateStudent');
+
+    $router->delete('/student/{id}', 'StudentController@deleteStudent'); 
+
+    // FURTHER DETAILS
+
+    $router->get('/studentDetails',['uses' => 'StudentController@getStudentDetails']); 
+
+    $router->get('/studentDetails/{id}', 'StudentController@getStudentDetailsID');
+
+    $router->post('/studentDetails', 'StudentController@createStudentDetails');
+
+    // GRADES
+
+    $router->get('/GradesS',['uses' => 'StudentController@getGrades']);
+
+    $router->get('/GradeS/{id}', 'StudentController@getGradeID');
+    
+
+//TEACHER CONTROLLER 8001
+
+    // TEACHER
+
+    $router->get('/teachers',['uses' => 'TeacherController@getTeachers']);
+
+    $router->get('/teacher/{id}', 'TeacherController@getTeacherID');
+
+    $router->post('/teacher', 'TeacherController@addTeacher');
+
+    $router->put('/teacher/{id}', 'TeacherController@updateTeacher');
+
+    $router->delete('/teacher/{id}', 'TeacherController@deleteTeacher');
+
+    // FURTHER DETAILS
+
+    $router->get('/teacherDetails',['uses' => 'TeacherController@getTeacherDetails']); 
+
+    $router->get('/teacherDetails/{id}', 'TeacherController@getTeacherDetailsID');
+
+    $router->post('/teacherDetails', 'TeacherController@createTeacherDetails');
+
+    // GRADING
+
+    $router->get('/GradesT',['uses' => 'TeacherController@getGrades']);
+
+    $router->get('/GradeT/{id}', 'TeacherController@getGradeID');
+    
+    $router->post('/GradeT', 'TeacherController@createGrade');
+
+
+//COURSE SUBJECT CONTROLLER 8002
+
+    // COURSE
+
+    $router->get('/getcourses',['uses' => 'CourseSubjectController@getCourses']); //getCourses - SHOW ALL COURSES
+
+    $router->get('/getcourse/{id}', 'CourseSubjectController@getCourseID'); //getCourseID - GET COURSE BY ID
+
+    $router->post('/addcourse', 'CourseSubjectController@addCourse'); //addCourse - CREATE NEW COURSE
+
+    $router->put('/updatecourse/{id}', 'CourseSubjectController@updateCourse');  //updateCourse - UPDATE COURSE USING PUT
+
+    $router->delete('/deletecourse/{id}', 'CourseSubjectController@deleteCourse'); //deleteCourse - DELETE COURSE
+
+
+    // SUBJECT
+
+    $router->get('/getsubjects',['uses' => 'CourseSubjectController@getSubjects']); //getSubjects - SHOW ALL SUBJECTS
+
+    $router->get('/getsubject/{id}', 'CourseSubjectController@getSubjectID'); //getSubjectID - GET SUBJECT BY ID
+
+    $router->post('/addsubject', 'CourseSubjectController@addSubject'); //addSubject - CREATE NEW SUBJECT
+
+    $router->put('/updatesubject/{id}', 'CourseSubjectController@updateSubject');  //updateSubject - UPDATE COURSE USING PUT
+
+    $router->delete('/deletesubject/{id}', 'CourseSubjectController@deleteSubject'); //deleteSubject - DELETE COURSE
+
+
+    // STUDENT
+
+    $router->get('/courseenrollees','CourseSubjectController@getStudentCourse'); //index - GET ALL LIST OF ENROLLEES'
+
+    $router->get('/courseenrollee/{id}','CourseSubjectController@getCourseEnrolled'); //getCourseEnrolled - GET ENROLLED STUDENT BY ID
+
+
+    // TEACHER
+
+    $router->get('/courseassignees','CourseSubjectController@getTeacherCourse'); //index - GET ALL LIST OF ASSIGNEES'
+
+    $router->get('/courseassignee/{id}','CourseSubjectController@getCourseAssigned'); //getCourseAssigned - GET ASSIGNED TEACHER BY ID
+
+
+});
